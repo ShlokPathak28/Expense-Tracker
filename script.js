@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalAmount = document.getElementById("total-amount");
     const filterCategory = document.getElementById("filter-category");
 
-    let expenses = [];
+    let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+    displayExpenses(expenses);
+    updateTotalAmount();
 
     expenseForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -23,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         expenses.push(expense);
+        localStorage.setItem('expenses', JSON.stringify(expenses));
         displayExpenses(expenses);
         updateTotalAmount();
         expenseForm.reset();
@@ -32,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.classList.contains("delete-btn")) {
             const id = parseInt(e.target.dataset.id);
             expenses = expenses.filter(expense => expense.id !== id);
+            localStorage.setItem('expenses', JSON.stringify(expenses));
             displayExpenses(expenses);
             updateTotalAmount();
         }
@@ -46,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("expense-date").value = expense.date;
 
             expenses = expenses.filter(expense => expense.id !== id);
+            localStorage.setItem('expenses', JSON.stringify(expenses));
             displayExpenses(expenses);
             updateTotalAmount();
         }
